@@ -4,6 +4,7 @@ import CatchAsyncError from "../utils/catchAsyncError";
 import ErrorHandler from "../utils/errorHandler";
 import { sendToken } from "../utils/generateAuthToken";
 import { Config } from "../config";
+import logger from "../config/logger";
 
 export const register = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -38,6 +39,7 @@ export const register = CatchAsyncError(async (req: Request, res: Response, next
 			message: "User successfully registered. You can login in!",
 		});
 	} catch (error) {
+		logger.error("Register Controller: ", error);
 		return next(new ErrorHandler("Something went wrong. Please try after sometime.", 500));
 	}
 });
@@ -67,6 +69,7 @@ export const login = CatchAsyncError(async (req: Request, res: Response, next: N
 
 		sendToken(loggedInUser, 200, res);
 	} catch (error) {
+		logger.error("Login Controller: ", error);
 		return next(new ErrorHandler(`Something went wrong. Please try after sometime.`, 500));
 	}
 });
@@ -80,6 +83,7 @@ export const logout = CatchAsyncError(async (req: Request, res: Response, next: 
 			})
 			.json({ message: "Logout successfully" });
 	} catch (error) {
+		logger.error("Logout Controller: ", error);
 		return next(new ErrorHandler("Something went wrong. Please try after sometime.", 500));
 	}
 });

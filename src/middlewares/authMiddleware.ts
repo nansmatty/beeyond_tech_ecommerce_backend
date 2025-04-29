@@ -4,6 +4,7 @@ import ErrorHandler from "../utils/errorHandler";
 import jwt from "jsonwebtoken";
 import { Config } from "../config";
 import User, { IUser } from "../models/UserModel";
+import logger from "../config/logger";
 
 export interface IDecodedToken {
 	id: string;
@@ -40,6 +41,7 @@ export const isAuthenticated = CatchAsyncError(
 
 			next();
 		} catch (error) {
+			logger.error("isAuthenticated middleware: ", error);
 			return next(new ErrorHandler("You are not authorized. Please login first!", 401));
 		}
 	}

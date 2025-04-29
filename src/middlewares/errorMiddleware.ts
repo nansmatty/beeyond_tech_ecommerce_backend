@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import ErrorHandler from "../utils/errorHandler";
 import logger from "../config/logger";
 
 interface CustomError extends Error {
