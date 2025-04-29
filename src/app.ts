@@ -6,6 +6,7 @@ import cors from "cors";
 // import { Server as SocketServer } from "socket.io";
 import { ErrorMiddleware } from "./middlewares/errorMiddleware";
 import userRoutes from "./routes/userRoutes";
+import corsOptions from "./config/corsOptions";
 
 const app = express();
 // const server = http.createServer(app);
@@ -18,7 +19,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(helmet());
 

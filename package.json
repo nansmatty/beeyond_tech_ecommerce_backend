@@ -9,7 +9,8 @@
 		"build": "tsc",
 		"lint": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix",
-		"format": "prettier --write \"src/**/*.ts\"",
+		"format:check": "prettier . --check",
+		"format:fix": "prettier . --write",
 		"prepare": "husky"
 	},
 	"keywords": [],
@@ -52,8 +53,8 @@
 	},
 	"lint-staged": {
 		"*.ts": [
-			"prettier --write",
-			"eslint --fix"
+			"npm run format:fix",
+			"npm run lint:fix"
 		]
 	}
 }
