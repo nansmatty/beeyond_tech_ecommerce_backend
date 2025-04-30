@@ -5,6 +5,7 @@ import cors from "cors";
 import { ErrorMiddleware } from "./middlewares/errorMiddleware";
 import userRoutes from "./routes/userRoutes";
 import productRoutes from "./routes/productRoutes";
+import orderRoutes from "./routes/orderRoutes";
 import corsOptions from "./config/corsOptions";
 
 const app = express();
@@ -29,6 +30,7 @@ app.get("/api/health-check", (_req: Request, res: Response) => {
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
+app.use("/api/order", orderRoutes);
 
 app.use(ErrorMiddleware);
 

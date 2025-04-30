@@ -18,8 +18,6 @@ export interface IOrder extends Document {
     state: string;
     pincode: string;
   };
-  lockedAt: Date;
-  lockedBy?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -81,13 +79,6 @@ const OrderSchema = new mongoose.Schema<IOrder>(
         type: String,
         required: true,
       },
-    },
-    lockedAt: {
-      type: Date,
-    },
-    lockedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
     },
   },
   { timestamps: true },

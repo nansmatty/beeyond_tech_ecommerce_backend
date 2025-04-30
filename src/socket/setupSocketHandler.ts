@@ -104,22 +104,36 @@ export const setupSocketHandlers = (io: Server) => {
         return;
       }
 
-      io.to(`order:${orderId}`).emit("order:statusUpdated", {
+      io.to(`order:${orderId}`).emit("order:accept", {
         orderId,
-        deliveryPartnerId: socket.user.id,
+        deliveryPartner: socket.user.id,
         status: "accepted",
         updatedAt: new Date(),
       });
 
-      io.to("admin").emit("order:statusUpdated", {
+      io.to("admin").emit("order:accept", {
         orderId,
-        deliveryPartnerId: socket.user.id,
+        deliveryPartner: socket.user.id,
         status: "accepted",
         updatedAt: new Date(),
       });
 
       logger.info(
         `Order ${orderId} accepted by delivery partner ${socket.user.id}`,
+      );
+    });
+
+    socket.on("order:lock", ({ orderId }) => {
+      if (socket.user?.role !== "delivery") return;
+
+      io.to(`order:${orderId}`).emit("order:locked", {
+        orderId,
+        lockedBy: socket.user.id,
+        lockedAt: new Date(),
+      });
+
+      logger.info(
+        `Order ${orderId} locked by delivery partner ${socket.user.id}`,
       );
     });
 

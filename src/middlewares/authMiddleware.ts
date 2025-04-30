@@ -12,7 +12,7 @@ export interface IDecodedToken {
 }
 
 export interface AuthRequest extends Request {
-  user?: IDecodedToken | IUser;
+  user?: IUser;
 }
 
 export const isAuthenticated = CatchAsyncError(
