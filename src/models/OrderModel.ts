@@ -10,13 +10,7 @@ export interface IOrder extends Document {
   customer: mongoose.Types.ObjectId;
   items: IOrderItem[];
   totalAmount: number;
-  status:
-    | "pending"
-    | "accepted"
-    | "picked_up"
-    | "on_the_way"
-    | "delivered"
-    | "cancelled";
+  status: "pending" | "accepted" | "picked_up" | "on_the_way" | "delivered";
   deliveryPartner?: mongoose.Types.ObjectId;
   deliveryAddress: {
     street: string;
@@ -62,14 +56,7 @@ const OrderSchema = new mongoose.Schema<IOrder>(
     },
     status: {
       type: String,
-      enum: [
-        "pending",
-        "accepted",
-        "picked_up",
-        "on_the_way",
-        "delivered",
-        "cancelled",
-      ],
+      enum: ["pending", "accepted", "picked_up", "on_the_way", "delivered"],
       default: "pending",
     },
 
