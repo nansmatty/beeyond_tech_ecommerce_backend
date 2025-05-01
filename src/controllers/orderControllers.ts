@@ -1,12 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import CatchAsyncError from "../utils/catchAsyncError";
 import ErrorHandler from "../utils/errorHandler";
 import logger from "../config/logger";
 import Product from "../models/ProductModel";
 import Order from "../models/OrderModel";
+import { AuthRequest } from "../middlewares/authMiddleware";
 
 export const createOrder = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const userId = req.user?.id;
       const { items, deliveryAddress } = req.body;
@@ -83,7 +84,7 @@ export const createOrder = CatchAsyncError(
 );
 
 export const getOrders = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const role = req.user?.role;
 
@@ -125,7 +126,7 @@ export const getOrders = CatchAsyncError(
 );
 
 export const getOrder = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
       const order = await Order.findById(req.params.id);
 
@@ -150,7 +151,7 @@ export const getOrder = CatchAsyncError(
 );
 
 export const updateOrderStatus = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     const { orderId } = req.params;
     const { status } = req.body;
     const user = req.user;
@@ -195,7 +196,7 @@ export const updateOrderStatus = CatchAsyncError(
 );
 
 export const acceptOrder = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
     const { orderId } = req.params;
     const userId = req.user?.id;
     const role = req.user?.role;
