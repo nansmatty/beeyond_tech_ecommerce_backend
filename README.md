@@ -14,11 +14,12 @@ Built using Node.js (ESM), Express, MongoDB, JWT-based authentication, and Socke
 
 ## 🧱 Tech Stack Used
 
-- **Node.js + Express (ESM)** for API and WebSocket server
+- **Node.js + Express + Typescript** for API and WebSocket server
 - **MongoDB** for document-based order and user management
 - **Socket.io** for real-time communication
 - **JWT** for authentication
 - **Docker** for containerization
+- **Husky** for pre-commit hook
 - **Winston** for logging
 - **Nginx** (for deployment) as reverse proxy (setup during VM hosting)
 
