@@ -34,8 +34,8 @@ app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
 
 //Fallback route
-app.all("*", (req: Request, _res: Response, next: NextFunction) => {
-  return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
+app.use((req: Request, _res: Response, next: NextFunction) => {
+  next(new ErrorHandler(`Route  ${req.originalUrl} not found`, 404));
 });
 
 app.use(ErrorMiddleware);
