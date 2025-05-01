@@ -247,3 +247,58 @@ export const acceptOrder = CatchAsyncError(
     }
   },
 );
+
+export const getAvailableOrders = CatchAsyncError(
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const orders = await Order.find({
+        status: "pending",
+        deliveryPartner: { $exists: false },
+      });
+
+      if (!orders || orders.length === 0) {
+        return next(new ErrorHandler("No orders available", 404));
+      }
+
+      return res.status(200).json({
+        success: true,
+        orders,
+      });
+    } catch (error) {
+      logger.error("Get Available Orders Error: ", error);
+      return next(
+        new ErrorHandler(
+          "Something went wrong. Please try after sometime.",
+          500,
+        ),
+      );
+    }
+  },
+);
+
+export const getMyDeliveries = CatchAsyncError(
+  async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const deliveryPartnerId = req.user?.id;
+
+      const orders = await Order.find({ deliveryPartner: deliveryPartnerId });
+
+      if (!orders || orders.length === 0) {
+        return next(new ErrorHandler("No orders available", 404));
+      }
+
+      return res.status(200).json({
+        success: true,
+        orders,
+      });
+    } catch (error) {
+      logger.error("Get My Deliveries Orders Error: ", error);
+      return next(
+        new ErrorHandler(
+          "Something went wrong. Please try after sometime.",
+          500,
+        ),
+      );
+    }
+  },
+);

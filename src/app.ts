@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import cors from "cors";
@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes";
 import productRoutes from "./routes/productRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import corsOptions from "./config/corsOptions";
+import ErrorHandler from "./utils/errorHandler";
 
 const app = express();
 
@@ -31,6 +32,11 @@ app.get("/api/health-check", (_req: Request, res: Response) => {
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/order", orderRoutes);
+
+//Fallback route
+app.all("*", (req: Request, _res: Response, next: NextFunction) => {
+  return next(new ErrorHandler(`Route ${req.originalUrl} not found`, 404));
+});
 
 app.use(ErrorMiddleware);
 

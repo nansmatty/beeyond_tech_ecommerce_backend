@@ -3,6 +3,8 @@ import { authorize, isAuthenticated } from "../middlewares/authMiddleware";
 import {
   acceptOrder,
   createOrder,
+  getAvailableOrders,
+  getMyDeliveries,
   getOrder,
   getOrders,
   updateOrderStatus,
@@ -17,6 +19,19 @@ router.post(
   createOrder,
 );
 router.get("/get-all", isAuthenticated, getOrders);
+router.get(
+  "/available-orders",
+  isAuthenticated,
+  authorize("delivery"),
+  getAvailableOrders,
+);
+router.get(
+  "/my-deliveries",
+  isAuthenticated,
+  authorize("delivery"),
+  getMyDeliveries,
+);
+
 router.get("/:id", isAuthenticated, getOrder);
 router.put(
   "/:orderId/accept",
